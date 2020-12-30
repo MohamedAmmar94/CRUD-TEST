@@ -111,27 +111,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
-    <script src="{{ asset('js/EZView.js') }}"></script>
-    <script src="{{ asset('js/draggable.js') }}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{asset('/js/notiflix-aio-2.6.0.min.js')}}"></script>
-
+    <script src="{{ asset('js/EZView.js') }}"></script>
+    <script src="{{ asset('js/draggable.js') }}"></script>
     <script>
     Notiflix.Loading.Init({
       clickToClose: true,
       customSvgUrl: 'https://www.notiflix.com/content/media/icon/notiflix-loading-notiflix.svg',
     });
   </script>
+  @yield('scripts')
     <script>
         $(function() {
-  let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
-  let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
-  let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
-  let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
-  let printButtonTrans = '{{ trans('global.datatables.print') }}'
-  let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
-  let selectAllButtonTrans = '{{ trans('global.select_all') }}'
-  let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
+  let copyButtonTrans = 'copy'
+  let csvButtonTrans = 'csv'
+  let excelButtonTrans = 'excel'
+  let pdfButtonTrans = 'pdf'
+  let printButtonTrans = 'print'
+  let colvisButtonTrans = 'colvis'
+  let selectAllButtonTrans = 'select_all'
+  let selectNoneButtonTrans = 'deselect_all'
 
   let languages = {
     'ar': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json',
@@ -237,7 +239,7 @@
 });
 
     </script>
-    @yield('scripts')
+
 </body>
 
 </html>

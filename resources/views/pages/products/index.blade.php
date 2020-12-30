@@ -3,39 +3,42 @@
 
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.clients.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.client.title_singular') }}
+            <a class="btn btn-success" href="{{ route('products.create') }}">
+                Add Product
             </a>
         </div>
     </div>
 
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.client.title_singular') }} {{ trans('global.list') }}
+        products List
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Client">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-product">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.client.fields.id') }}
+                            id
                         </th>
                         <th>
-                            {{ trans('cruds.client.fields.name') }}
+                            title
                         </th>
                         <th>
-                            {{ trans('cruds.client.fields.nationalid') }}
+                            description
                         </th>
                         <th>
-                            {{ trans('cruds.client.fields.phone') }}
+                            price
                         </th>
                         <th>
-                            {{ trans('cruds.client.fields.user') }}
+                            category
+                        </th>
+                        <th>
+                            updated_at
                         </th>
                         <th>
                             &nbsp;
@@ -45,68 +48,79 @@
                         <td>
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
+
                             <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($users as $key => $item)
+                                <option  value> All Category</option>
+                                @foreach($categories as $key => $item)
                                     <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
+                            <input class="search" type="text" placeholder="Search">
+                        </td>
+
+                        <td>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($clients as $key => $client)
-                        <tr data-entry-id="{{ $client->id }}">
+
+                    @foreach($products as $key => $product)
+                        <tr data-entry-id="{{ $product->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $client->id ?? '' }}
+                                {{ $product->id ?? '' }}
                             </td>
                             <td>
-                                {{ $client->name ?? '' }}
+                                {{ $product->title ?? '' }}
                             </td>
                             <td>
-                                {{ $client->nationalid ?? '' }}
+                                {{ $product->description ?? '' }}
                             </td>
                             <td>
-                                {{ $client->phone ?? '' }}
-                            </td>
-                            <td>
-                                {{ $client->user->name ?? '' }}
+                                {{ $product->price ?? '' }}
+
                             </td>
                             <td>
 
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.clients.show', $client->id) }}">
-                                        {{ trans('global.view') }}
+                                {{ $product->category_name ? $product->category_name->name : '' }}
+                            </td>
+                            <td>
+                                {{ $product->updated_at->diffforHumans() ?? '' }}
+                            </td>
+                            <td>
+
+                                    <a class="btn btn-xs btn-primary" href="{{ route('products.show', $product->id) }}">
+                                        View
                                     </a>
 
 
 
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.clients.edit', $client->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn btn-xs btn-info" href="{{ route('products.edit', $product->id) }}">
+                                        Edit
                                     </a>
 
 
 
-                                    <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are You Sure');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                                     </form>
 
 
@@ -126,36 +140,14 @@
 @section('scripts')
 @parent
 <script>
+
     $(function () {
+        $('.table-striped').DataTable( {
+           "order": [[ 6, "desc" ]],
+         });
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.clients.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
 
 
   $.extend(true, $.fn.dataTable.defaults, {

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\ImageController;
+use App\Models\Product;
+use App\Models\Category;
+use App\Http\Requests\ProductRequest;
+use App\Models\AppImage;
 
 class ProductController extends Controller
 {
@@ -16,7 +21,7 @@ class ProductController extends Controller
     {
         //$products=Product::paginate(10);
         $products=Product::get();
-        $categories=Category::pluck("name","id");
+        $categories=Category::get();
         return view('pages.products.index',compact('products','categories'));
     }
 
@@ -27,7 +32,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories=Category::get();
+
+        return view('pages.products.create',compact('categories'));
     }
 
     /**
@@ -36,9 +43,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        //dd($request->images);
+        $product=Product::create($request->except('_token','images'));
+        return redirect()->route("products.index");
     }
 
     /**
@@ -49,7 +58,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('pages.products.show',compact('product'));
     }
 
     /**
@@ -60,7 +69,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories=Category::get();
+
+        return view('pages.products.edit',compact('categories','product'));
     }
 
     /**
@@ -70,9 +81,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->except(['logo']));
+        return redirect()->route("products.index");
     }
 
     /**
@@ -83,6 +95,19 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+         return redirect()->route("products.index");
+    }
+    public function delete_image( $id)
+    {
+        $img=AppImage::find($id);
+            if(!empty($img)){
+                if (file_exists(storage_path('app/public/uploads/product' . "/" . $img->image))) {
+                    $old_img=\App\Http\Controllers\ImageController::delete_single_file($img->image, 'app/public/uploads/product');
+                }
+                $img->delete();
+                return true;
+            }
+            return false;
     }
 }

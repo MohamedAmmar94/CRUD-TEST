@@ -13,7 +13,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,14 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        $images = 'image|mimes:jpeg,jpg,png,gif';
+        $images_array = 'required|array|max:2';
         return [
-            //
+            'title'=>'required',
+            'description'=>'required',
+            'price'=>'nullable',
+            'images' => $images_array,
+            'images.*' => $images,
         ];
     }
 }

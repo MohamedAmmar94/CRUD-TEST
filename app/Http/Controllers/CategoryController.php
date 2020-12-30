@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\AppImage;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 class CategoryController extends Controller
@@ -53,7 +54,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('pages.categories.show',compact('category'));
     }
 
     /**
@@ -64,7 +65,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories=Category::get();
+
+        return view('pages.categories.edit',compact('categories','category'));
     }
 
     /**
@@ -74,9 +77,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+         $category->update($request->except(['logo']));
+         return redirect()->route("categories.index");
     }
 
     /**
@@ -87,6 +91,19 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+         return redirect()->route("categories.index");
+    }
+    public function delete_logo( $id)
+    {
+        $img=AppImage::find($id);
+            if(!empty($img)){
+                if (file_exists(storage_path('app/public/uploads/category' . "/" . $img->image))) {
+                    $old_img=\App\Http\Controllers\ImageController::delete_single_file($img->image, 'app/public/uploads/category');
+                }
+                $img->delete();
+                return true;
+            }
+            return false;
     }
 }

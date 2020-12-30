@@ -35,7 +35,7 @@
                             logo
                         </th>
                         <th>
-                            created_at
+                            updated_at
                         </th>
                         <th>
                             &nbsp;
@@ -45,24 +45,23 @@
                         <td>
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
                         <td>
                             <select class="search">
-                                <option value> parent Category</option>
+                                <option  value> All Category</option>
                                 @foreach($categories as $key => $item)
                                     <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                            <input class="search" type="text" placeholder="Search">
                         </td>
 
                         <td>
@@ -82,32 +81,35 @@
                                 {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $category->parent->name ?? '' }}
+                                {{ $category->parent_category? $category->parent_category->name : '' }}
                             </td>
                             <td>
-                                {{ $category->logo ?? '' }}
+                                @if($category->logo_url)
+                                    <img class='index-gallary gallary' src='{{$category->logo_url}}'>
+                                @endif
+
                             </td>
                             <td>
-                                {{ $category->created_at ?? '' }}
+                                {{ $category->updated_at->diffforHumans() ?? '' }}
                             </td>
                             <td>
 
                                     <a class="btn btn-xs btn-primary" href="{{ route('categories.show', $category->id) }}">
-                                        {{ trans('global.view') }}
+                                        View
                                     </a>
 
 
 
                                     <a class="btn btn-xs btn-info" href="{{ route('categories.edit', $category->id) }}">
-                                        {{ trans('global.edit') }}
+                                        Edit
                                     </a>
 
 
 
-                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are You Sure');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                                     </form>
 
 
@@ -127,17 +129,17 @@
 @section('scripts')
 @parent
 <script>
+
     $(function () {
+
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
 
-  dtButtons.push(deleteButton)
 
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 5, 'desc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-Client:not(.ajaxTable)').DataTable({ buttons: dtButtons })

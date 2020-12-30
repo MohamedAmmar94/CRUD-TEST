@@ -24,7 +24,7 @@
                 <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="parent" id="user_id">
                     <option selected value="">Main Category</option>
                     @foreach($categories as $id => $item)
-                        <option value="{{ $item->id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $item->name }}</option>
+                        <option value="{{ $item->id }}" {{ old('parent') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('user'))
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label for="website">website</label>
-                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="text" name="website" id="website" value="{{ old('website', '') }}">
+                <input class="form-control {{ $errors->has('website') ? 'is-invalid' : '' }}" type="text" name="website" id="website" value="{{ old('website', '') }}">
                 @if($errors->has('website'))
                     <div class="invalid-feedback">
                         required
@@ -75,9 +75,13 @@
                   img.src = window.URL.createObjectURL(event.target.files[0])
                   img.onload = () => {
                       console.log(img.width+" - "+img.height);
-                      if(img.width <100 || img.height<100 ){
-                           Notiflix.Notify.Failure('min width and height is 100 px');
+                      if(img.width < 100  ){
+                           Notiflix.Notify.Failure('min width  is 100 px');
                             $("#logo").val("");
+                      }
+                      if( img.height< 100){
+                          Notiflix.Notify.Failure('min  height is 100 px');
+                           $("#logo").val("");
                       }
                   }
 

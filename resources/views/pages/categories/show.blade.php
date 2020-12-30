@@ -3,71 +3,58 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.client.title') }}
+        Show Category
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.clients.index') }}">
-                    {{ trans('global.back_to_list') }}
+                <a class="btn btn-default" href="{{ route('categories.index') }}">
+                    Go Back
                 </a>
             </div>
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.client.fields.id') }}
+                            id
                         </th>
                         <td>
-                            {{ $client->id }}
+                            {{ $category->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.client.fields.name') }}
+                            Name
                         </th>
                         <td>
-                            {{ $client->name }}
+                            {{ $category->name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.client.fields.nationalid') }}
+                            Logo
                         </th>
                         <td>
-                            {{ $client->nationalid }}
+                            @if($category->logo_url)
+                            <img class="index-gallary" src="{{$category->logo_url}}">
+                        @endif
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.client.fields.phone') }}
+                            website
                         </th>
                         <td>
-                            {{ $client->phone }}
+                            {{ $category->website }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.client.fields.address') }}
-                        </th>
-                        <td>
-                            {{ $client->address }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.client.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $client->user->name ?? '' }}
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.clients.index') }}">
-                    {{ trans('global.back_to_list') }}
+                <a class="btn btn-default" href="{{ route('categories.index') }}">
+                    Go Back
                 </a>
             </div>
         </div>
