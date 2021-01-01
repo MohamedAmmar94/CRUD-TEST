@@ -27,6 +27,7 @@
 
 <body class="c-app">
     @include('partials.menu')
+
     <div class="c-wrapper">
         <header class="c-header c-header-fixed px-3">
             <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
@@ -59,7 +60,7 @@
 
         <div class="c-body">
             <main class="c-main">
-
+                @include('partials.nav_menu')
 
                 <div class="container-fluid">
                     @if(session('message'))
@@ -90,6 +91,7 @@
             </form>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -117,6 +119,8 @@
     <script src="{{asset('/js/notiflix-aio-2.6.0.min.js')}}"></script>
     <script src="{{ asset('js/EZView.js') }}"></script>
     <script src="{{ asset('js/draggable.js') }}"></script>
+    <script src="{{asset('/js/notiflix-aio-2.6.0.min.js')}}"></script>
+    @include('partials.alert')
     <script>
     Notiflix.Loading.Init({
       clickToClose: true,

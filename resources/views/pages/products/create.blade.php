@@ -22,11 +22,11 @@
                 <span class="help-block"></span>
             </div>
             <div class="form-group">
-                <label for="user_id">category</label>
-                <select class="form-control select2 {{ $errors->has('parent') ? 'is-invalid' : '' }}" name="parent" id="user_id" >
+                <label for="category">category</label>
+                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category" id="category" >
                     <option selected value="">Main Category</option>
                     @foreach($categories as $id => $item)
-                        <option value="{{ $item->id }}" {{ old('parent') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                        <option value="{{ $item->id }}" {{ old('category') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('user'))

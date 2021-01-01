@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\AppImage;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use Session;
 class CategoryController extends Controller
 {
     /**
@@ -13,11 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //$categories=Category::paginate(10);
         $categories=Category::get();
-
+        //dd($categories);
         return view('pages.categories.index',compact('categories'));
     }
 
@@ -90,7 +91,12 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category)
-    {
+    {//dd($category->childs);
+        if ($category->childs()->exists() ||$category->products()->exists() )
+        {
+             Session::flash('error', "you cannot delete category contain products or sub categories if you want i will change relation to cascade");
+            return redirect()->route("categories.index");
+        }
         $category->delete();
          return redirect()->route("categories.index");
     }

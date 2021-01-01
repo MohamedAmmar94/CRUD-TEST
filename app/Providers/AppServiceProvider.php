@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
+use Schema;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,7 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $query = Category::get();
-       \View::share('user', $query);
+        if (Schema::hasTable('categories')) {
+            $allcategory = Category::get();
+            $parent_category=Category::whereNull('parent')->get();
+           \View::share('allcategory', $allcategory);
+           \View::share('parent_category', $parent_category);
+       }
+
     }
 }

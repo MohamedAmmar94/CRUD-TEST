@@ -24,11 +24,12 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         $images = 'image|mimes:jpeg,jpg,png,gif';
-        $images_array = 'required|array|max:2';
+        $images_array = 'array|max:2';
         return [
             'title'=>'required',
             'description'=>'required',
             'price'=>'nullable',
+            'category'=>'numeric|exists:categories,id',
             'images' => $images_array,
             'images.*' => $images,
         ];

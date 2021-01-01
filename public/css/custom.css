@@ -130,3 +130,96 @@ table.dataTable thead .sorting_desc {
     width:100px;
     height:100px;
 }
+nav{display: block;}
+.menu {
+  display: block;
+  z-index: 999999;
+}
+.menu li {
+  display: inline-block;
+  position: relative;
+}
+.menu li.dropdown:hover > .submenu {
+  display: block;
+}
+.menu li a {
+  display: block;
+  padding: 12px 8px;
+  background: #ccc;
+      padding: 15px;
+}
+/* .menu li.dropdown > a::after {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  margin-left: 8px;
+  font-size: 10px;
+} */
+/* .menu li a::before {
+
+      display: display: inline-flex;;
+      border-right: 2px solid red;
+      border-bottom: 2px solid red;
+      width: 7px;
+      height: 7px;
+      transform: translate(-50%, -50%) rotate(45deg);
+}
+.menu li a::after {
+
+     display: inline-flex;
+      border-right: 2px solid red;
+      border-bottom: 2px solid red;
+      width: 7px;
+      height: 7px;
+      transform: translate(-50%, -50%) rotate(45deg);
+} */
+.menu li a:hover {
+  background: grey;
+}
+
+.menu .submenu {
+  display: none;
+}
+.submenu {
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  left: 0px;
+  list-style-type: none;
+  display: block;
+  width: 200px;
+  z-index: 9;
+}
+.submenu li {
+  display: block;
+}
+.submenu li a {
+  display: block;
+  background: #999;
+  color: #fff;
+  padding: 8px 6px;
+  margin-bottom: 1px;
+      padding: 15px;
+}
+.menu .submenu > li.dropdown:hover > .submenu {
+  display: block;
+}
+
+.menu .submenu .submenu {
+  position: absolute;
+  left: 200px;
+  top: 0px;
+}
+
+/* .submenu li.dropdown > a:after {
+    position: absolute;
+      left: 0;
+      top: 50%;
+      display: block;
+      border-right: 2px solid red;
+      border-bottom: 2px solid red;
+      width: 7px;
+      height: 7px;
+      transform: translate(-50%, -50%) rotate(45deg);
+} */

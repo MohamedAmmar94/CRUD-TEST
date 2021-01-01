@@ -17,10 +17,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //$products=Product::paginate(10);
-        $products=Product::get();
+        $products=Product::when($request->category,function($q)use($request){
+                $q->where('category',$request->category);
+            })->get();
         $categories=Category::get();
         return view('pages.products.index',compact('products','categories'));
     }

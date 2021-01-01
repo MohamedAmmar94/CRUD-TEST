@@ -90,7 +90,7 @@
 
                             </td>
                             <td>
-                                {{ $category->updated_at->diffforHumans() ?? '' }}
+                                {{ $category->updated_at ?? '' }}
                             </td>
                             <td>
 

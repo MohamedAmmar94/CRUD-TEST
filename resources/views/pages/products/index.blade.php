@@ -101,7 +101,7 @@
                                 {{ $product->category_name ? $product->category_name->name : '' }}
                             </td>
                             <td>
-                                {{ $product->updated_at->diffforHumans() ?? '' }}
+                                {{ $product->updated_at ?? '' }}
                             </td>
                             <td>
 
