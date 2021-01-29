@@ -72,7 +72,7 @@
                         @endforeach
                     @endif
                 </div>
-                
+
                 <input type="hidden" name="count" id="count" value="{{$product->images_url ? count($product->images_url):0}}">
                 <span class="help-block"></span>
             </div>
@@ -124,7 +124,8 @@
             			if(data==true){
                             $('#img-'+id).hide();
                             var count=$("#count").val();
-                            $("#count").val(count+1);
+                            var n_count=parseInt(count)-1;
+                            $("#count").val(n_count);
                             Notiflix.Notify.Success('image deleted successful ');
                         }else{
                              Notiflix.Notify.Failure('somethig went wronge ');
